@@ -6,10 +6,15 @@ int main() {
     const auto A = v.add("A", 0);
     const auto R = v.add("R", 0);
     const auto C = v.add("C", 0);
+    const auto DR = v.add("DR", 0);
+    const auto MR = v.add("MR", 0);
 
-    // Example reaction (extend operator overloading for full functionality)
-    const auto reaction = A + R;
+    // Create reactions using the updated syntax
+    v.add(DR >> 5 >>= MR + DR);          // DR reacts with rate 5 to produce MR and DR
+    v.add((A + R) >> 3 >>= C);           // A and R react with rate 3 to produce C
 
+
+    // Print items and reactions
     v.printItems();
 
     return 0;
