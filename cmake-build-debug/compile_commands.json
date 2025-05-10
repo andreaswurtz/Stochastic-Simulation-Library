@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/andreas/ClionProjects/Exam2025/cmake-build-debug",
+  "command": "/usr/bin/c++ -g -std=c++20 -fPIE -fdiagnostics-color=always -o CMakeFiles/main.dir/main.cpp.o -c /home/andreas/ClionProjects/Exam2025/main.cpp",
+  "file": "/home/andreas/ClionProjects/Exam2025/main.cpp",
+  "output": "CMakeFiles/main.dir/main.cpp.o"
+}
+]
