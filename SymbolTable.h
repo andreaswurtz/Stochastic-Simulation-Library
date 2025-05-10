@@ -11,7 +11,7 @@ class SymbolTable {
 
 public:
     bool insert(const KeyType& key, const ValueType& value) {
-        if (table.find(key) != table.end()) {
+        if (table.contains(key)) {
             std::cerr << "Error: Key already exists in the symbol table.\n";
             return false;
         }
