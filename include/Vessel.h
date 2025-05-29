@@ -6,44 +6,30 @@
 #include <vector>
 #include "Reaction.h"
 #include "SymbolTable.h"
+#include "Agent.h"
 
-template <typename ValueType>
-class Agent {
-    std::string name;
-    ValueType value;
-
-public:
-    Agent(const std::string& name, const ValueType& value) : name(name), value(value) {}
-
-    ValueType& get() { return value; }
-    const std::string& getName() const { return name; }
-
-    friend std::vector<Agent<ValueType>> operator+(const Agent<ValueType>& lhs, const Agent<ValueType>& rhs) {
-        return {lhs, rhs};
-    }
-};
 
 // Overload >> for a single Agent
 template <typename ValueType>
-inline std::pair<std::vector<Agent<ValueType>>, ValueType> operator>>(const Agent<ValueType>& reactant, const ValueType& rate) {
+ std::pair<std::vector<Agent<ValueType>>, ValueType> operator>>(const Agent<ValueType>& reactant, const double& rate) {
     return {{reactant}, rate};
 }
 
 // Overload >> for std::vector<Agent<ValueType>>
 template <typename ValueType>
-inline std::pair<std::vector<Agent<ValueType>>, ValueType> operator>>(const std::vector<Agent<ValueType>>& reactants, const ValueType& rate) {
+std::pair<std::vector<Agent<ValueType>>, ValueType> operator>>(const std::vector<Agent<ValueType>>& reactants, const double& rate) {
     return {reactants, rate};
 }
 
 // Overload >>= for a single product
 template <typename ValueType>
-inline Reaction<ValueType> operator>>=(const std::pair<std::vector<Agent<ValueType>>, ValueType>& intermediate, const Agent<ValueType>& product) {
+Reaction<ValueType> operator>>=(const std::pair<std::vector<Agent<ValueType>>, ValueType>& intermediate, const Agent<ValueType>& product) {
     return Reaction<ValueType>(intermediate.first, intermediate.second, {product});
 }
 
 // Overload >>= for multiple products
 template <typename ValueType>
-inline Reaction<ValueType> operator>>=(const std::pair<std::vector<Agent<ValueType>>, ValueType>& intermediate, const std::vector<Agent<ValueType>>& products) {
+Reaction<ValueType> operator>>=(const std::pair<std::vector<Agent<ValueType>>, ValueType>& intermediate, const std::vector<Agent<ValueType>>& products) {
     return Reaction<ValueType>(intermediate.first, intermediate.second, products);
 }
 
@@ -73,6 +59,10 @@ public:
         for (const auto& reaction : reactions) {
             reaction.print();
         }
+    }
+
+    void beginSimulation() {
+
     }
 };
 

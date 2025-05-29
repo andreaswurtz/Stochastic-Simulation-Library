@@ -49,11 +49,11 @@ cmake_ninja_workdir = /home/andreas/ClionProjects/Exam2025/cmake-build-debug/
 
 build cmake_object_order_depends_target_main: phony || .
 
-build CMakeFiles/main.dir/main.cpp.o: CXX_COMPILER__main_unscanned_Debug /home/andreas/ClionProjects/Exam2025/main.cpp || cmake_object_order_depends_target_main
-  DEP_FILE = CMakeFiles/main.dir/main.cpp.o.d
+build CMakeFiles/main.dir/src/main.cpp.o: CXX_COMPILER__main_unscanned_Debug /home/andreas/ClionProjects/Exam2025/src/main.cpp || cmake_object_order_depends_target_main
+  DEP_FILE = CMakeFiles/main.dir/src/main.cpp.o.d
   FLAGS = -g -std=c++20 -fPIE -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles/main.dir
-  OBJECT_FILE_DIR = CMakeFiles/main.dir
+  OBJECT_FILE_DIR = CMakeFiles/main.dir/src
 
 
 # =============================================================================
@@ -63,7 +63,7 @@ build CMakeFiles/main.dir/main.cpp.o: CXX_COMPILER__main_unscanned_Debug /home/a
 #############################################
 # Link the executable main
 
-build main: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/main.cpp.o
+build main: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles/main.dir/src/main.cpp.o
   DEP_FILE = CMakeFiles/main.dir/link.d
   FLAGS = -g
   LINK_FLAGS = -Wl,--dependency-file=CMakeFiles/main.dir/link.d
