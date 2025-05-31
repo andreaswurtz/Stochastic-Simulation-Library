@@ -4,5 +4,11 @@
   "command": "/usr/bin/c++   -g -std=c++20 -fPIE -fdiagnostics-color=always -o CMakeFiles/main.dir/src/main.cpp.o -c /home/andreas/Programming/Stochastic-Simulation-Library/src/main.cpp",
   "file": "/home/andreas/Programming/Stochastic-Simulation-Library/src/main.cpp",
   "output": "CMakeFiles/main.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/andreas/Programming/Stochastic-Simulation-Library/cmake-build-debug",
+  "command": "/usr/bin/c++   -g -std=c++20 -fPIE -fdiagnostics-color=always -o CMakeFiles/main.dir/examples/CircadianRhythm.cpp.o -c /home/andreas/Programming/Stochastic-Simulation-Library/examples/CircadianRhythm.cpp",
+  "file": "/home/andreas/Programming/Stochastic-Simulation-Library/examples/CircadianRhythm.cpp",
+  "output": "CMakeFiles/main.dir/examples/CircadianRhythm.cpp.o"
 }
 ]

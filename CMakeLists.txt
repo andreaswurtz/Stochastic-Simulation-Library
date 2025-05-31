@@ -22,7 +22,8 @@ include(sanitizers.cmake)
 #add_executable(print_test print_test.cpp print.cpp terms.cpp)
 #target_link_libraries(print_test PRIVATE doctest_with_main)
 
-add_executable(main src/main.cpp include/SymbolTable.h)
+add_executable(main src/main.cpp include/SymbolTable.h
+        examples/CircadianRhythm.cpp)
 #target_link_libraries(main_test PRIVATE doctest_with_main)
 
 

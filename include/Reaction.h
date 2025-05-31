@@ -57,14 +57,16 @@ public:
 
     // Calculate delay using the current agentState
     double getDelay(const SymbolTable<std::string, ValueType>& agentState) const {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+
         double product = calculateReactantProduct(agentState);
         if (product == 0.0) {
             return std::numeric_limits<double>::infinity();
         }
         double lambda = rate * product;
-        std::default_random_engine generator;
         std::exponential_distribution<double> distribution(lambda);
-        return distribution(generator);
+        return distribution(gen);
     }
 
 

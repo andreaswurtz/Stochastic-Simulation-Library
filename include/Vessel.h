@@ -58,6 +58,13 @@ public:
         reactions.push_back(reaction);
     }
 
+    Agent<ValueType> environment() {
+        if (!agentState.insert("env", 0)) {
+            throw std::runtime_error("Environment already exists in the vessel.");
+        }
+        return Agent<ValueType>("env", agentState.lookup("env").value());
+    }
+
     void printItems() const {
         std::cout << "Vessel: " << name << "\n";
         agentState.print();
