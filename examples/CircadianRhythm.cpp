@@ -4,7 +4,7 @@
 #include "../include/Vessel.h"
 
 int main() {
-    Vessel<int> v("Circadian Rhythm");
+    Vessel<double> v("Circadian Rhythm");
 
     const auto alphaA = 50;
     const auto alpha_A = 500;
