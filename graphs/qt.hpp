@@ -21,6 +21,7 @@ public:
 
         for (const auto& [time, state] : stateHistory) {
             for (const auto& [agent, value] : state) {
+                if (agent == "env") continue; // Exclude "env" from the chart
                 if (!seriesMap.count(agent)) {
                     seriesMap[agent] = new QLineSeries();
                     seriesMap[agent]->setName(QString::fromStdString(agent));

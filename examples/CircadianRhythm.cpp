@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
     v.add(MR >> deltaMR >>= env);
 
     v.printItems();
-    v.beginSimulation(24); // Simulate for 24 hours in milliseconds
+    v.beginSimulation(24*60);
 
     auto history = v.getStateHistory();
     auto* chartWidget = new StateHistoryChart(history);
