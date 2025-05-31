@@ -2,8 +2,18 @@
 // Created by andreas on 5/31/25.
 //
 #include "../include/Vessel.h"
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QValueAxis>
+#include <QWidget>
+#include <QVBoxLayout>
 
-int main() {
+#include <QApplication>
+#include "../graphs/qt.hpp"
+
+int main(int argc, char* argv[]) {
+    QApplication app(argc, argv);
+
     Vessel<double> v("Circadian Rhythm");
 
     const auto alphaA = 50;
@@ -53,6 +63,13 @@ int main() {
 
     v.printItems();
     v.beginSimulation(24); // Simulate for 24 hours in milliseconds
+
+    auto history = v.getStateHistory();
+    auto* chartWidget = new StateHistoryChart(history);
+    chartWidget->resize(800, 600);
+    chartWidget->show();
+
+    return app.exec();
 
     return 0;
 }

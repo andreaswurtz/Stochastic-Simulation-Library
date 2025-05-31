@@ -46,6 +46,10 @@ public:
         --(it->second);
     }
 
+    std::map<KeyType, ValueType> toMap() const {
+        return std::map<KeyType, ValueType>(table.begin(), table.end());
+    }
+
     void print() const {
         for (const auto& [key, value] : table) {
             std::cout << "Key: " << key << ", Value: " << value << "\n";

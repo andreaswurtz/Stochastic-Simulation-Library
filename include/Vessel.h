@@ -2,6 +2,7 @@
 #define VESSEL_H
 
 #include <algorithm>
+#include <map>
 #include <string>
 #include <memory>
 #include <vector>
@@ -42,10 +43,15 @@ class Vessel {
     std::string name;
     SymbolTable<std::string, ValueType> agentState;
     std::vector<Reaction<ValueType> > reactions;
+    std::vector<std::pair<double, std::map<std::string, ValueType>>> stateHistory;
+
 
 public:
+
     explicit Vessel(const std::string &vesselName) : name(vesselName) {
     }
+
+    const auto& getStateHistory() const { return stateHistory; }
 
     Agent<ValueType> add(const std::string &itemName, const ValueType &initialValue) {
         if (!agentState.insert(itemName, initialValue)) {
@@ -117,6 +123,9 @@ public:
                     // Print the reaction
                     std::cout << "Time: " << time << ", Agent State: ";
                     agentState.print();
+
+                    auto snapshot = agentState.toMap();
+                    stateHistory.emplace_back(time, snapshot);
                 } else {
                     // Skip or handle unavailable reactants
                 }

@@ -23,7 +23,11 @@ include(sanitizers.cmake)
 #target_link_libraries(print_test PRIVATE doctest_with_main)
 
 add_executable(main src/main.cpp include/SymbolTable.h
-        examples/CircadianRhythm.cpp)
+        examples/CircadianRhythm.cpp
+        graphs/qt.hpp)
+
+find_package(Qt5 COMPONENTS Charts REQUIRED)
+target_link_libraries(main PRIVATE Qt5::Charts)
 #target_link_libraries(main_test PRIVATE doctest_with_main)
 
 
