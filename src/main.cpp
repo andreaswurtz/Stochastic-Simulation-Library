@@ -13,7 +13,6 @@ int main() {
     v.add(DR >> 1 >>= MR + DR);          // DR reacts with rate 5 to produce MR and DR
     v.add((A + R) >> 0.01 >>= C);           // A and R react with rate 3 to produce C
 
-
     // Print items and reactions
     v.printItems();
 

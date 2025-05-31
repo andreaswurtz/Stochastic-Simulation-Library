@@ -29,6 +29,27 @@ public:
         return it->second;
     }
 
+    bool increment(const KeyType& key) {
+        auto it = table.find(key);
+        if (it == table.end()) {
+            std::cerr << "Error: Key not found in the symbol table.\n";
+            return false;
+        }
+        ++(it->second);
+        return true;
+    }
+
+    // Decrement the value for a key by 1
+    bool decrement(const KeyType& key) {
+        auto it = table.find(key);
+        if (it == table.end()) {
+            std::cerr << "Error: Key not found in the symbol table.\n";
+            return false;
+        }
+        --(it->second);
+        return true;
+    }
+
     void print() const {
         for (const auto& [key, value] : table) {
             std::cout << "Key: " << key << ", Value: " << value << "\n";

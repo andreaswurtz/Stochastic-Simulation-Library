@@ -40,18 +40,19 @@ Reaction<ValueType> operator>>=(const std::pair<std::vector<Agent<ValueType> >, 
 template<typename ValueType>
 class Vessel {
     std::string name;
-    SymbolTable<std::string, ValueType> items;
+    SymbolTable<std::string, ValueType> agentState;
     std::vector<Reaction<ValueType> > reactions;
 
 public:
     explicit Vessel(const std::string &vesselName) : name(vesselName) {
+
     }
 
     Agent<ValueType> add(const std::string &itemName, const ValueType &initialValue) {
-        if (!items.insert(itemName, initialValue)) {
+        if (!agentState.insert(itemName, initialValue)) {
             throw std::runtime_error("Error: Item '" + itemName + "' already exists in the vessel.");
         }
-        return Agent<ValueType>(itemName, items.lookup(itemName).value());
+        return Agent<ValueType>(itemName, agentState.lookup(itemName).value());
     }
 
     void add(const Reaction<ValueType> &reaction) {
@@ -60,14 +61,15 @@ public:
 
     void printItems() const {
         std::cout << "Vessel: " << name << "\n";
-        items.print();
+        agentState.print();
         for (const auto &reaction: reactions) {
             reaction.print();
         }
     }
 
-    void beginSimulation(int time) {
-        for (int i = 0; i < time; i++) {
+    void beginSimulation(double maxTime) {
+
+        for (double time = 0; time < maxTime; time++) {
             for (Reaction<ValueType> reaction: reactions) {
                 reaction.delay = reaction.getDelay();
             }
@@ -79,7 +81,36 @@ public:
             );
             if (selectedIt != reactions.end()) {
                 Reaction<ValueType> &selectedReaction = *selectedIt;
-                // Use selectedReaction as needed
+                time += selectedReaction.delay;
+
+                // Check if all reactants have value > 0
+                bool allAvailable = std::all_of(
+                    selectedReaction.reactants.begin(),
+                    selectedReaction.reactants.end(),
+                    [](const Agent<ValueType>& agent) {
+                        return agent.get() > 0;
+                    }
+                );
+
+                if (allAvailable) {
+                    // Decrease each reactant by 1
+                    for (const Agent<ValueType>& inputAgent : selectedReaction.reactants) {
+                        agentState.decrement(inputAgent.getName());
+                    }
+
+                    // Increase each product by 1
+                    for (const auto& outputAgent : selectedReaction.products) {
+                        agentState.increment(outputAgent.getName());
+                    }
+
+                    // Print the reaction
+                    std::cout << "Time: " << time << "Agent State";
+                    agentState.print();
+
+                } else {
+                    // Skip or handle unavailable reactants
+                }
+
             }
         }
     }
