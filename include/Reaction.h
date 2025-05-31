@@ -4,6 +4,9 @@
 #include <vector>
 #include <iostream>
 #include <random>
+#include <limits> // For std::numeric_limits
+
+#include "SymbolTable.h"
 
 // Forward declaration of Agent
 template <typename ValueType>
@@ -11,16 +14,19 @@ class Agent;
 
 template <typename ValueType>
 class Reaction {
+
+
+public:
+    double delay = 0.0;
     std::vector<Agent<ValueType>> reactants;
     std::vector<Agent<ValueType>> products;
     double rate;
-    double delay = 0.0;
-
-public:
     // Constructor
     Reaction(const std::vector<Agent<ValueType>>& reactants, const double& rate, const std::vector<Agent<ValueType>>& products)
         : reactants(reactants), products(products), rate(rate) {}
 
+
+    void setDelay(double delay) const { *this.delay = delay; }
     // Print the reaction
     void print() const {
         std::cout << "Reaction: ";
@@ -34,40 +40,35 @@ public:
             if (i < products.size() - 1) std::cout << " + ";
         }
         std::cout << "\n";
-        std::cout << "Product of reactants: " << calculateReactantProduct() << "\n";
-        std::cout << "Delay: " << getDelay() << "\n";
 
 
     }
 
-    // Calculate the product of reactant values
-    [[nodiscard]] double calculateReactantProduct() const {
-        return std::accumulate(
-            reactants.begin(), reactants.end(), 1.0,
-            [](double acc, const Agent<ValueType>& agent) {
-                return acc * static_cast<double>(agent.get()); // Multiply the current value
-            }
-        );
+    // Calculate the product of reactant values using the current agentState
+    double calculateReactantProduct(const SymbolTable<std::string, ValueType>& agentState) const {
+        double product = 1.0;
+        for (const auto& agent : reactants) {
+            auto valOpt = agentState.lookup(agent.getName());
+            if (!valOpt.has_value() || valOpt.value() == 0) return 0.0;
+            product *= static_cast<double>(valOpt.value());
+        }
+        return product;
     }
 
-#include <limits> // For std::numeric_limits
-
-    double getDelay() const {
-        double product = calculateReactantProduct();
-
-        // If any reactant is exhausted, return infinite delay
+    // Calculate delay using the current agentState
+    double getDelay(const SymbolTable<std::string, ValueType>& agentState) const {
+        double product = calculateReactantProduct(agentState);
         if (product == 0.0) {
             return std::numeric_limits<double>::infinity();
         }
-
-        // Calculate the rate parameter for the exponential distribution
         double lambda = rate * product;
-
-        // Generate the delay using the exponential distribution
-        std::default_random_engine generator; // Random number generator
+        std::default_random_engine generator;
         std::exponential_distribution<double> distribution(lambda);
         return distribution(generator);
     }
+
+
+
 };
 
 #endif // REACTION_H
