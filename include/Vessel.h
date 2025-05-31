@@ -1,6 +1,7 @@
 #ifndef VESSEL_H
 #define VESSEL_H
 
+#include <algorithm>
 #include <string>
 #include <memory>
 #include <vector>
@@ -10,59 +11,77 @@
 
 
 // Overload >> for a single Agent
-template <typename ValueType>
- std::pair<std::vector<Agent<ValueType>>, ValueType> operator>>(const Agent<ValueType>& reactant, const double& rate) {
+template<typename ValueType>
+std::pair<std::vector<Agent<ValueType> >, double> operator>>(const Agent<ValueType> &reactant, const double &rate) {
     return {{reactant}, rate};
 }
 
 // Overload >> for std::vector<Agent<ValueType>>
-template <typename ValueType>
-std::pair<std::vector<Agent<ValueType>>, ValueType> operator>>(const std::vector<Agent<ValueType>>& reactants, const double& rate) {
+template<typename ValueType>
+std::pair<std::vector<Agent<ValueType> >, double> operator>>(const std::vector<Agent<ValueType> > &reactants,
+                                                             const double &rate) {
     return {reactants, rate};
 }
 
 // Overload >>= for a single product
-template <typename ValueType>
-Reaction<ValueType> operator>>=(const std::pair<std::vector<Agent<ValueType>>, ValueType>& intermediate, const Agent<ValueType>& product) {
+template<typename ValueType>
+Reaction<ValueType> operator>>=(const std::pair<std::vector<Agent<ValueType> >, double> &intermediate,
+                                const Agent<ValueType> &product) {
     return Reaction<ValueType>(intermediate.first, intermediate.second, {product});
 }
 
 // Overload >>= for multiple products
-template <typename ValueType>
-Reaction<ValueType> operator>>=(const std::pair<std::vector<Agent<ValueType>>, ValueType>& intermediate, const std::vector<Agent<ValueType>>& products) {
+template<typename ValueType>
+Reaction<ValueType> operator>>=(const std::pair<std::vector<Agent<ValueType> >, double> &intermediate,
+                                const std::vector<Agent<ValueType> > &products) {
     return Reaction<ValueType>(intermediate.first, intermediate.second, products);
 }
 
-template <typename ValueType>
+template<typename ValueType>
 class Vessel {
     std::string name;
     SymbolTable<std::string, ValueType> items;
-    std::vector<Reaction<ValueType>> reactions;
+    std::vector<Reaction<ValueType> > reactions;
 
 public:
-    explicit Vessel(const std::string& vesselName) : name(vesselName) {}
+    explicit Vessel(const std::string &vesselName) : name(vesselName) {
+    }
 
-    Agent<ValueType> add(const std::string& itemName, const ValueType& initialValue) {
+    Agent<ValueType> add(const std::string &itemName, const ValueType &initialValue) {
         if (!items.insert(itemName, initialValue)) {
             throw std::runtime_error("Error: Item '" + itemName + "' already exists in the vessel.");
         }
         return Agent<ValueType>(itemName, items.lookup(itemName).value());
     }
 
-    void add(const Reaction<ValueType>& reaction) {
+    void add(const Reaction<ValueType> &reaction) {
         reactions.push_back(reaction);
     }
 
     void printItems() const {
         std::cout << "Vessel: " << name << "\n";
         items.print();
-        for (const auto& reaction : reactions) {
+        for (const auto &reaction: reactions) {
             reaction.print();
         }
     }
 
-    void beginSimulation() {
-
+    void beginSimulation(int time) {
+        for (int i = 0; i < time; i++) {
+            for (Reaction<ValueType> reaction: reactions) {
+                reaction.delay = reaction.getDelay();
+            }
+            auto selectedIt = std::min_element(
+                reactions.begin(), reactions.end(),
+                [](const Reaction<ValueType> &a, const Reaction<ValueType> &b) {
+                    return a.delay < b.delay;
+                }
+            );
+            if (selectedIt != reactions.end()) {
+                Reaction<ValueType> &selectedReaction = *selectedIt;
+                // Use selectedReaction as needed
+            }
+        }
     }
 };
 

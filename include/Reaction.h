@@ -18,7 +18,7 @@ class Reaction {
 
 public:
     // Constructor
-    Reaction(const std::vector<Agent<ValueType>>& reactants, const ValueType& rate, const std::vector<Agent<ValueType>>& products)
+    Reaction(const std::vector<Agent<ValueType>>& reactants, const double& rate, const std::vector<Agent<ValueType>>& products)
         : reactants(reactants), products(products), rate(rate) {}
 
     // Print the reaction

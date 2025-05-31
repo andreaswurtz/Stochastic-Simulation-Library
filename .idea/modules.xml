@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Exam2025.iml" filepath="$PROJECT_DIR$/.idea/Exam2025.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Stochastic-Simulation-Library.iml" filepath="$PROJECT_DIR$/.idea/Stochastic-Simulation-Library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/exam.iml" filepath="$PROJECT_DIR$/.idea/exam.iml" />
     </modules>
   </component>
 </project>
