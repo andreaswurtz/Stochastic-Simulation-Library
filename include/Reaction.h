@@ -41,11 +41,11 @@ public:
     }
 
     // Calculate the product of reactant values
-    double calculateReactantProduct() const {
+    [[nodiscard]] double calculateReactantProduct() const {
         return std::accumulate(
             reactants.begin(), reactants.end(), 1.0,
             [](double acc, const Agent<ValueType>& agent) {
-                return acc * agent.get(); // Multiply the current value
+                return acc * static_cast<double>(agent.get()); // Multiply the current value
             }
         );
     }
