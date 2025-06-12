@@ -43,15 +43,24 @@ class Vessel {
     std::string name;
     SymbolTable<std::string, ValueType> agentState;
     std::vector<Reaction<ValueType> > reactions;
-    std::vector<std::pair<double, std::map<std::string, ValueType>>> stateHistory;
-
+    std::vector<std::pair<double, std::map<std::string, ValueType> > > stateHistory;
 
 public:
-
     explicit Vessel(const std::string &vesselName) : name(vesselName) {
     }
 
-    const auto& getStateHistory() const { return stateHistory; }
+    const auto &getStateHistory() const {
+        return stateHistory;
+    }
+
+    const auto &getReactions() const {
+        return reactions;
+    }
+
+    auto getAgents() const {
+        return agentState.toMap();
+    }
+
 
     Agent<ValueType> add(const std::string &itemName, const ValueType &initialValue) {
         if (!agentState.insert(itemName, initialValue)) {
@@ -79,9 +88,10 @@ public:
         }
     }
 
+
     void beginSimulation(double maxTime) {
         for (double time = 0; time < maxTime;) {
-            for (auto& reaction: reactions) {
+            for (auto &reaction: reactions) {
                 reaction.delay = reaction.getDelay(agentState);
             }
             auto selectedIt = std::min_element(

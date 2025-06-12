@@ -10,6 +10,7 @@
 //
 // #include <QApplication>
 // #include "../graphs/qt.hpp"
+// #include "../graphs/graphix.hpp"
 //
 // int main(int argc, char* argv[]) {
 //     QApplication app(argc, argv);
@@ -43,16 +44,17 @@
 //     v.add(I >> kappa >>= H);                         // I -> H
 //     v.add(H >> tau >>= R);                           // H -> R
 //
+//     generateGraphviz(v, "../dotoutput/covid19.dot");
 //
 //
-//     v.beginSimulation(100);
-//
-//     auto history = v.getStateHistory();
-//     auto* chartWidget = new StateHistoryChart(history);
-//     chartWidget->resize(800, 600);
-//     chartWidget->show();
-//
-//     return app.exec();
-//
-//     return 0;
+//     // v.beginSimulation(100);
+//     //
+//     // auto history = v.getStateHistory();
+//     // auto* chartWidget = new StateHistoryChart(history);
+//     // chartWidget->resize(800, 600);
+//     // chartWidget->show();
+//     //
+//     // return app.exec();
+//     //
+//     // return 0;
 // }

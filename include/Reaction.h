@@ -39,7 +39,7 @@ public:
             std::cout << products[i].getName();
             if (i < products.size() - 1) std::cout << " + ";
         }
-
+        std::cout << std::endl;
 
     }
 
