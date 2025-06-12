@@ -83,9 +83,6 @@ public:
         for (double time = 0; time < maxTime;) {
             for (auto& reaction: reactions) {
                 reaction.delay = reaction.getDelay(agentState);
-                std::cout << "Reaction delay for ";
-                reaction.print();
-                std::cout << " reaction delay: " << reaction.delay << "\n";
             }
             auto selectedIt = std::min_element(
                 reactions.begin(), reactions.end(),
