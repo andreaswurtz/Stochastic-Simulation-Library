@@ -9,6 +9,7 @@
 #include "Reaction.h"
 #include "SymbolTable.h"
 #include "Agent.h"
+#include <functional>
 
 
 // Overload >> for a single Agent
@@ -38,22 +39,25 @@ Reaction<ValueType> operator>>=(const std::pair<std::vector<Agent<ValueType> >, 
     return Reaction<ValueType>(intermediate.first, intermediate.second, products);
 }
 
+
 template<typename ValueType>
 class Vessel {
     std::string name;
     SymbolTable<std::string, ValueType> agentState;
-    std::vector<Reaction<ValueType> > reactions;
-    std::vector<std::pair<double, std::map<std::string, ValueType> > > stateHistory;
+    std::vector<Reaction<ValueType>> reactions;
+    std::vector<std::pair<double, std::map<std::string, ValueType>>> stateHistory;
+    std::function<void(double, const SymbolTable<std::string, ValueType>&)> observer; // Observer function
 
 public:
-    explicit Vessel(const std::string &vesselName) : name(vesselName) {
-    }
+    explicit Vessel(const std::string& vesselName,
+                    std::function<void(double, const SymbolTable<std::string, ValueType>&)> observerFunc = nullptr)
+        : name(vesselName), observer(std::move(observerFunc)) {}
 
-    const auto &getStateHistory() const {
+    const auto& getStateHistory() const {
         return stateHistory;
     }
 
-    const auto &getReactions() const {
+    const auto& getReactions() const {
         return reactions;
     }
 
@@ -61,15 +65,14 @@ public:
         return agentState.toMap();
     }
 
-
-    Agent<ValueType> add(const std::string &itemName, const ValueType &initialValue) {
+    Agent<ValueType> add(const std::string& itemName, const ValueType& initialValue) {
         if (!agentState.insert(itemName, initialValue)) {
             throw std::runtime_error("Error: Item '" + itemName + "' already exists in the vessel.");
         }
         return Agent<ValueType>(itemName, agentState.lookup(itemName).value());
     }
 
-    void add(const Reaction<ValueType> &reaction) {
+    void add(const Reaction<ValueType>& reaction) {
         reactions.push_back(reaction);
     }
 
@@ -83,58 +86,51 @@ public:
     void printItems() const {
         std::cout << "Vessel: " << name << "\n";
         agentState.print();
-        for (const auto &reaction: reactions) {
+        for (const auto& reaction : reactions) {
             reaction.print();
         }
     }
 
-
     void beginSimulation(double maxTime) {
         for (double time = 0; time < maxTime;) {
-            for (auto &reaction: reactions) {
+            for (auto& reaction : reactions) {
                 reaction.delay = reaction.getDelay(agentState);
             }
             auto selectedIt = std::min_element(
                 reactions.begin(), reactions.end(),
-                [](const Reaction<ValueType> &a, const Reaction<ValueType> &b) {
+                [](const Reaction<ValueType>& a, const Reaction<ValueType>& b) {
                     return a.delay < b.delay;
                 }
             );
 
             if (selectedIt != reactions.end()) {
-                Reaction<ValueType> &selectedReaction = *selectedIt;
+                Reaction<ValueType>& selectedReaction = *selectedIt;
                 time += selectedReaction.delay;
 
-                // Check if all reactants have value > 0
-                // [this] is used so the lambda inside a member function can access this->agentState, which is a member variable of the class. Without capturing this, the lambda cannot access class members.
                 bool allAvailable = std::all_of(
                     selectedReaction.reactants.begin(),
                     selectedReaction.reactants.end(),
-                    [this](const Agent<ValueType> &agent) {
+                    [this](const Agent<ValueType>& agent) {
                         auto valOpt = this->agentState.lookup(agent.getName());
                         return valOpt.has_value() && valOpt.value() > 0;
                     }
                 );
 
                 if (allAvailable) {
-                    // Decrease each reactant by 1
-                    for (const Agent<ValueType> &inputAgent: selectedReaction.reactants) {
+                    for (const Agent<ValueType>& inputAgent : selectedReaction.reactants) {
                         agentState.decrement(inputAgent.getName());
                     }
 
-                    // Increase each product by 1
-                    for (const auto &outputAgent: selectedReaction.products) {
+                    for (const auto& outputAgent : selectedReaction.products) {
                         agentState.increment(outputAgent.getName());
                     }
 
-                    // Print the reaction
-                    std::cout << "Time: " << time << ", Agent State: ";
-                    agentState.print();
+                    if (observer) {
+                        observer(time, agentState); // Call the observer function
+                    }
 
                     auto snapshot = agentState.toMap();
                     stateHistory.emplace_back(time, snapshot);
-                } else {
-                    // Skip or handle unavailable reactants
                 }
             }
         }

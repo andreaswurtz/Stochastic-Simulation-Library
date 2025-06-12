@@ -25,6 +25,7 @@ include(sanitizers.cmake)
 add_executable(main src/main.cpp include/SymbolTable.h
         examples/CircadianRhythm.cpp
         examples/Covid19.cpp
+        examples/Covid19Async.cpp
         examples/Example1.cpp
         graphs/qt.hpp)
 
