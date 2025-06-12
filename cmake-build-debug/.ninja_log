@@ -1,10 +1,12 @@
 # ninja log v6
-5	24	1749715811341313688	CMakeFiles/main.dir/examples/Example1.cpp.o	d19e6831c27429e4
-8	45	1749558218081559048	CMakeFiles/main.dir/src/main.cpp.o	e2434c8694823162
-2	73	1749724277541887738	build.ninja	30d1c2bd0414af3d
-4	69	1749720602807529495	CMakeFiles/main.dir/examples/CircadianRhythm.cpp.o	5996f3e0f42b3774
-3613	4041	1749722563207713505	main	8cdd28d29ea72a68
-4	3613	1749722559598758410	CMakeFiles/main.dir/examples/Covid19.cpp.o	2454fea43f040aec
 5	20	1749722559599758398	CMakeFiles/main.dir/examples/Covid19Async.cpp.o	304d2f38a3c7bb3a
 14	7107	1749724285875795056	CMakeFiles/main.dir/examples/Covid19.cpp.o	2454fea43f040aec
 7107	7810	1749724292968716077	main	8cdd28d29ea72a68
+4	69	1749720602807529495	CMakeFiles/main.dir/examples/CircadianRhythm.cpp.o	5996f3e0f42b3774
+4	157	1749727284558966486	build.ninja	30d1c2bd0414af3d
+8	45	1749558218081559048	CMakeFiles/main.dir/src/main.cpp.o	e2434c8694823162
+5	24	1749715811341313688	CMakeFiles/main.dir/examples/Example1.cpp.o	d19e6831c27429e4
+2	3124	1749727306243682289	_deps/doctest-build/CMakeFiles/doctest_with_main.dir/doctest/parts/doctest.cpp.o	f4ff98642c283a91
+3124	4052	1749727309367641361	_deps/doctest-build/libdoctest_with_main.a	2579359d7202dff0
+3	4540	1749727306244682277	CMakeFiles/SymbolTableTests.dir/tests/SymbolTableTests.cpp.o	f2cc2d3d382dad43
+4540	4725	1749727310781622836	SymbolTableTests	de199f4b20c533b1

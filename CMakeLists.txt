@@ -9,7 +9,12 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(BUILD_SHARED_LIBS OFF) # Stick with statically linked libraries
 
 include(sanitizers.cmake)
+include(doctest.cmake)
 
+add_executable(SymbolTableTests tests/SymbolTableTests.cpp)
+target_link_libraries(SymbolTableTests doctest::doctest_with_main)
+enable_testing()
+add_test(NAME SymbolTableTests COMMAND SymbolTableTests)
 #add_executable(exam_test exam_test.cpp)
 #target_link_libraries(exam_test PRIVATE doctest_with_main)
 
