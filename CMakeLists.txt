@@ -15,6 +15,10 @@ add_executable(SymbolTableTests tests/SymbolTableTests.cpp)
 target_link_libraries(SymbolTableTests doctest::doctest_with_main)
 enable_testing()
 add_test(NAME SymbolTableTests COMMAND SymbolTableTests)
+
+add_executable(ReactionTests tests/ReactionTests.cpp)
+target_link_libraries(ReactionTests doctest::doctest_with_main)
+add_test(NAME ReactionTests COMMAND ReactionTests)
 #add_executable(exam_test exam_test.cpp)
 #target_link_libraries(exam_test PRIVATE doctest_with_main)
 

@@ -76,6 +76,41 @@ build SymbolTableTests: CXX_EXECUTABLE_LINKER__SymbolTableTests_Debug CMakeFiles
   TARGET_PDB = SymbolTableTests.dbg
 
 # =============================================================================
+# Object build statements for EXECUTABLE target ReactionTests
+
+
+#############################################
+# Order-only phony target for ReactionTests
+
+build cmake_object_order_depends_target_ReactionTests: phony || cmake_object_order_depends_target_doctest_with_main
+
+build CMakeFiles/ReactionTests.dir/tests/ReactionTests.cpp.o: CXX_COMPILER__ReactionTests_unscanned_Debug /home/andreas/ClionProjects/Exam2025/tests/ReactionTests.cpp || cmake_object_order_depends_target_ReactionTests
+  DEP_FILE = CMakeFiles/ReactionTests.dir/tests/ReactionTests.cpp.o.d
+  FLAGS = -g -std=c++20 -fPIE -fdiagnostics-color=always
+  INCLUDES = -I/home/andreas/ClionProjects/Exam2025/cmake-build-debug/_deps/doctest-src
+  OBJECT_DIR = CMakeFiles/ReactionTests.dir
+  OBJECT_FILE_DIR = CMakeFiles/ReactionTests.dir/tests
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target ReactionTests
+
+
+#############################################
+# Link the executable ReactionTests
+
+build ReactionTests: CXX_EXECUTABLE_LINKER__ReactionTests_Debug CMakeFiles/ReactionTests.dir/tests/ReactionTests.cpp.o | _deps/doctest-build/libdoctest_with_main.a || _deps/doctest-build/libdoctest_with_main.a
+  DEP_FILE = CMakeFiles/ReactionTests.dir/link.d
+  FLAGS = -g
+  LINK_FLAGS = -Wl,--dependency-file=CMakeFiles/ReactionTests.dir/link.d
+  LINK_LIBRARIES = _deps/doctest-build/libdoctest_with_main.a
+  OBJECT_DIR = CMakeFiles/ReactionTests.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = ReactionTests
+  TARGET_PDB = ReactionTests.dbg
+
+# =============================================================================
 # Object build statements for EXECUTABLE target main
 
 
@@ -350,7 +385,7 @@ build libdoctest_with_main.a: phony _deps/doctest-build/libdoctest_with_main.a
 #############################################
 # Folder: /home/andreas/ClionProjects/Exam2025/cmake-build-debug
 
-build all: phony SymbolTableTests main _deps/doctest-build/all
+build all: phony SymbolTableTests ReactionTests main _deps/doctest-build/all
 
 # =============================================================================
 

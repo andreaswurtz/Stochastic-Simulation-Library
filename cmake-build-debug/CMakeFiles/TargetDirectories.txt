@@ -1,4 +1,5 @@
 /home/andreas/ClionProjects/Exam2025/cmake-build-debug/CMakeFiles/SymbolTableTests.dir
+/home/andreas/ClionProjects/Exam2025/cmake-build-debug/CMakeFiles/ReactionTests.dir
 /home/andreas/ClionProjects/Exam2025/cmake-build-debug/CMakeFiles/main.dir
 /home/andreas/ClionProjects/Exam2025/cmake-build-debug/CMakeFiles/test.dir
 /home/andreas/ClionProjects/Exam2025/cmake-build-debug/CMakeFiles/edit_cache.dir
