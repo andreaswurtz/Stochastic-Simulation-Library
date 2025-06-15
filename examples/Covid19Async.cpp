@@ -9,6 +9,7 @@
 double runSimulation(int N) {
     double peakHospitalization = 0.0;
 
+    //R7
     auto trackPeakHospitalization = [&peakHospitalization](double time, const SymbolTable<std::string, double>& agentState) {
         auto hospitalValue = agentState.lookup("H");
         if (hospitalValue.has_value()) {
@@ -43,13 +44,15 @@ double runSimulation(int N) {
     v.add(I >> kappa >>= H);
     v.add(H >> tau >>= R);
 
+    v.printItems();
+
     v.beginSimulation(100);
 
     return peakHospitalization;
 }
 
 int main() {
-    const int numSimulations = 100;
+    const int numSimulations = 1;
     const int populationSize = 10000;
 
     using clk = std::chrono::high_resolution_clock;
@@ -58,18 +61,18 @@ int main() {
     using std::cout;
     using std::endl;
 
-    // Benchmark sequential execution
-    auto t0 = clk::now();
-    std::vector<double> sequentialResults;
-    for (int i = 0; i < numSimulations; ++i) {
-        sequentialResults.push_back(runSimulation(populationSize));
-    }
-    auto t1 = clk::now();
-    cout << "Time for 100 simulations sequentially: "
-         << duration<double, milli>(t1 - t0).count() << " ms\n";
+    // Benchmark sequential execution R10
+    // auto t0 = clk::now();
+    // std::vector<double> sequentialResults;
+    // for (int i = 0; i < numSimulations; ++i) {
+    //     sequentialResults.push_back(runSimulation(populationSize));
+    // }
+    // auto t1 = clk::now();
+    // cout << "Time for 100 simulations sequentially: "
+    //      << duration<double, milli>(t1 - t0).count() << " ms\n";
 
-    // Benchmark parallel execution
-    t0 = clk::now();
+    // Benchmark parallel execution R10
+    auto t0 = clk::now();
     std::vector<std::future<double>> futures;
     for (int i = 0; i < numSimulations; ++i) {
         futures.push_back(std::async(std::launch::async, runSimulation, populationSize));
@@ -79,11 +82,11 @@ int main() {
     for (auto& future : futures) {
         parallelResults.push_back(future.get());
     }
-    t1 = clk::now();
+    auto t1 = clk::now();
     cout << "Time for 100 simulations in parallel: "
          << duration<double, milli>(t1 - t0).count() << " ms\n";
 
-    // Compute average peak hospitalization for parallel results
+    // Compute average peak hospitalization for parallel results R8
     double averagePeak = std::accumulate(parallelResults.begin(), parallelResults.end(), 0.0) / parallelResults.size();
     cout << "Average Peak Hospitalization over " << numSimulations << " simulations: " << averagePeak << "\n";
 
